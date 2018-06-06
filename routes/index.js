@@ -10,8 +10,27 @@ router.get('/', function(req, res, next) {
 });
 router.post('/inserir', function(req, res, next) {
   var tmp = req.body.ip;
-  res.render('index', { title: 'Cadastro de Ip ',ip:tmp});
-  console.log(tmp);
- 
+  var mysql = require('mysql');
+  
+  var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "nodetst"
+  });
+
+  con.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    var sql = "INSERT INTO teste1 (ipconexao) VALUES ("+ tmp +")";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+  });
+
+
+
+
 });
 module.exports = router;
